@@ -1,0 +1,82 @@
+﻿@page "/fetchdata"
+@inject HttpClient Http
+
+<PageTitle>Weather forecast</PageTitle>
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                if(forecasts.IndexOf(forecast) >= (itemsPerPage*page) 
+                    && forecasts.IndexOf(forecast) < (itemsPerPage*page)+itemsPerPage)
+                {
+                    <tr>
+                        <td>@forecast.Date.ToShortDateString()</td>
+                        <td>@forecast.TemperatureC</td>
+                        <td>@forecast.TemperatureF</td>
+                        <td>@forecast.Summary</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    @if (page>0){
+        <button @onclick="previousPage">Anterior</button>
+    }
+    @if(page+1 < maxPage)
+    {
+        <button @onclick="nextPage">Proxima</button>    
+    }    
+}
+
+@code {
+    private List<WeatherForecast>? forecasts;
+    private int page = 0;
+    private int maxPage = 0;
+    private int itemsPerPage = 4;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetFromJsonAsync<List<WeatherForecast>?>("sample-data/weather.json");
+        maxPage = Convert.ToInt32(Math.Ceiling(forecasts.Count() / Convert.ToDecimal(itemsPerPage)));
+    }
+
+    public class WeatherForecast
+    {
+        public DateTime Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public string? Summary { get; set; }
+
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    }
+    public async Task nextPage()
+    {
+        if(page+1 < maxPage)
+            page = page + 1;
+    }
+    public async Task previousPage()
+    {
+        if (page>0)
+            page = page -1;
+    }
+}
