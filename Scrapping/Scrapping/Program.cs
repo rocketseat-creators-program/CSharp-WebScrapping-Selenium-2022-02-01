@@ -16,8 +16,8 @@ new ConfigureFromConfigurationOptions<SeleniumConfig>(
 Console.WriteLine("Programa de Web Scrapping iniciado!");
 
 // Chamar classe de scrapping
-//var page = new WebServerExport(seleniumConfig);
-//page.InitExport();
-//page.Dispose();
-//Console.WriteLine("Pressione enter para encerrar...");
-//Console.ReadLine();
+var page = new WebServerExport(seleniumConfig);
+page.InitExport();
+page.Dispose();
+Console.WriteLine("Pressione enter para encerrar...");
+Console.ReadLine();
