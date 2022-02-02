@@ -10,4 +10,6 @@ Neste projeto vamos implementar uma técnica chamada de Web Scrapping com o C# e
 ## Expert
 
 
+| <img src="https://github.com/lucascofani.png" width="75px;"/>|
+| :-: |
 |[Lucas Tadeu Inaba Cofani](https://github.com/lucascofani)|
